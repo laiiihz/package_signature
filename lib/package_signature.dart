@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:flutter/services.dart';
 
-
 /// ## PackageSignature
 ///
 /// get android package signature.
@@ -32,7 +31,7 @@ class PackageSignature {
   /// ## get sha256
   ///
   /// converts input and return a sha256 hash string.
-  static String sha256(Uint8List chars){
+  static String sha256(Uint8List chars) {
     crypto.Digest sha256Chars = crypto.sha256.convert(chars);
     return Base64Encoder().convert(sha256Chars.bytes);
   }
@@ -47,6 +46,7 @@ class Signature {
 
   /// signature sha1
   String get sha1 => PackageSignature.sha1(chars);
+
   /// signature sha256
   String get sha256 => PackageSignature.sha256(chars);
 }
