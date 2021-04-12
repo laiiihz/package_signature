@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 ///
 /// get android package signature.
 ///
-/// *only working Android Devices.*
+/// *only working on `Android Devices`.*
 class PackageSignature {
   static const MethodChannel _channel =
       const MethodChannel('package_signature');

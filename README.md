@@ -2,13 +2,23 @@
 
 a easy way to get android package signature on flutter app.
 
-## Getting Started
+## USAGE
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+* get a platform signature object.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```dart
+Signature signature = await PackageSignature.signature;
+```
+
+* get sha1 or sha256 signature.
+
+```dart
+    String  _signatureSha256 = signature.sha256;
+    String  _signatureSha1 = signature.sha1;
+```
+
+## CONTRIBUTORS
+
+[@laiiihz](https://github.com/laiiihz)
+
+[@ibrahim-mubarak](https://github.com/ibrahim-mubarak)
