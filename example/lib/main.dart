@@ -17,6 +17,8 @@ class _MyAppState extends State<MyApp> {
 
   String _signatureSha1 = 'Unknown';
 
+  String _signatureSha1Hex = 'Unknown';
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +38,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _signatureSha256 = signature.sha256;
       _signatureSha1 = signature.sha1;
+      _signatureSha1Hex = signature.sha1Hex;
     });
   }
 
@@ -58,12 +61,18 @@ class _MyAppState extends State<MyApp> {
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               Text(_signatureSha256),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Text(
                 "SHA1",
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               Text(_signatureSha1),
+              const SizedBox(height: 12),
+              Text(
+                "SHA1 Hex",
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              Text(_signatureSha1Hex),
             ],
           ),
         ),
