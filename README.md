@@ -14,7 +14,9 @@ Signature signature = await PackageSignature.signature;
 
 ```dart
     String  _signatureSha256 = signature.sha256;
+    String  _signatureSha256 = signature.sha256Hex;
     String  _signatureSha1 = signature.sha1;
+    String  _signatureSha1 = signature.sha1Hex;
 ```
 
 ## CONTRIBUTORS
