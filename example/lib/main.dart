@@ -4,19 +4,19 @@ import 'dart:async';
 import 'package:package_signature/package_signature.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key key}) : super(key: key);
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   String _signatureSha256 = 'Unknown';
-
+  String _signatureSha256Hex = 'Unknown';
   String _signatureSha1 = 'Unknown';
-
   String _signatureSha1Hex = 'Unknown';
 
   @override
@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       _signatureSha256 = signature.sha256;
+      _signatureSha256Hex = signature.sha256Hex;
       _signatureSha1 = signature.sha1;
       _signatureSha1Hex = signature.sha1Hex;
     });
@@ -61,6 +62,12 @@ class _MyAppState extends State<MyApp> {
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               Text(_signatureSha256),
+              const SizedBox(height: 12),
+              Text(
+                "SHA256Hex",
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              Text(_signatureSha256Hex),
               const SizedBox(height: 12),
               Text(
                 "SHA1",
