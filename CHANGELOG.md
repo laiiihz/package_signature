@@ -1,4 +1,4 @@
-## Unreleased
+## 1.0.0 - 2023-05-24
 ### Changed
 - set minSDK to 2.17.0
 - set min flutter version to 3.0.0
