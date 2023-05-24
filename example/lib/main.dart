@@ -18,6 +18,7 @@ class _MyAppState extends State<MyApp> {
   String _signatureSha256Hex = 'Unknown';
   String _signatureSha1 = 'Unknown';
   String _signatureSha1Hex = 'Unknown';
+  int _cost = 0;
 
   @override
   void initState() {
@@ -25,60 +26,53 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    Signature signature = await PackageSignature.signature;
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
+    final n = DateTime.now();
+    Signature? signature = await PackageSignature().signature;
     if (!mounted) return;
 
     setState(() {
-      _signatureSha256 = signature.sha256;
-      _signatureSha256Hex = signature.sha256Hex;
-      _signatureSha1 = signature.sha1;
-      _signatureSha1Hex = signature.sha1Hex;
+      _cost = DateTime.now().difference(n).inMilliseconds;
+      _signatureSha256 = signature?.sha256base64 ?? '';
+      _signatureSha256Hex = signature?.sha256hex ?? '';
+      _signatureSha1 = signature?.sha1base64 ?? '';
+      _signatureSha1Hex = signature?.sha1hex ?? '';
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.light(useMaterial3: true),
+      darkTheme: ThemeData.dark(useMaterial3: true),
       home: Scaffold(
         appBar: AppBar(
           title: const Text("App Signature"),
+          actions: [
+            IconButton(
+              onPressed: initPlatformState,
+              icon: const Icon(Icons.refresh),
+            ),
+          ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "SHA256",
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
+              Chip(label: Text("cost: $_cost ms")),
+              const Chip(label: Text("SHA256")),
               Text(_signatureSha256),
               const SizedBox(height: 12),
-              Text(
-                "SHA256Hex",
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
+              const Chip(label: Text("SHA256Hex")),
               Text(_signatureSha256Hex),
               const SizedBox(height: 12),
-              Text(
-                "SHA1",
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
+              const Chip(label: Text("SHA1")),
               Text(_signatureSha1),
               const SizedBox(height: 12),
-              Text(
-                "SHA1 Hex",
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
+              const Chip(label: Text("SHA1 Hex")),
               Text(_signatureSha1Hex),
             ],
           ),

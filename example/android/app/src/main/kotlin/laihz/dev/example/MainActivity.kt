@@ -1,4 +1,4 @@
-package tech.laihz.package_signature_example
+package laihz.dev.example
 
 import io.flutter.embedding.android.FlutterActivity
 

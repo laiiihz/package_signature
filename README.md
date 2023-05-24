@@ -7,16 +7,18 @@ a easy way to get android package signature on flutter app.
 * get a platform signature object.
 
 ```dart
-Signature signature = await PackageSignature.signature;
+Signature? signature = await PackageSignature().signature;
 ```
 
 * get sha1 or sha256 signature.
 
 ```dart
-    String  _signatureSha256 = signature.sha256;
-    String  _signatureSha256 = signature.sha256Hex;
-    String  _signatureSha1 = signature.sha1;
-    String  _signatureSha1 = signature.sha1Hex;
+    String sha256base64 = signature.sha256base64;
+    String sha256hex = signature.sha256hex;
+    Uint8List sha256bytes = signature.sha256byte;
+    String sha1base64 = signature.sha1base64;
+    String sha1hex = signature.sha1hex;
+    Uint8List sha1bytes = signature.sha1bytes;
 ```
 
 ## CONTRIBUTORS

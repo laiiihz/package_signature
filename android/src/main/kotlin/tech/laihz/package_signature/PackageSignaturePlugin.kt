@@ -1,5 +1,6 @@
 package tech.laihz.package_signature
 
+import PackagePortal
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageInfo
@@ -15,43 +16,36 @@ import io.flutter.plugin.common.MethodChannel.Result
 
 
 /** PackageSignaturePlugin */
-class PackageSignaturePlugin : FlutterPlugin, MethodCallHandler {
-    /// The MethodChannel that will the communication between Flutter and native Android
-    ///
-    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-    /// when the Flutter Engine is detached from the Activity
-    private lateinit var channel: MethodChannel
+class PackageSignaturePlugin : FlutterPlugin, PackagePortal {
     private lateinit var context: Context
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "package_signature")
-        channel.setMethodCallHandler(this)
         context = flutterPluginBinding.applicationContext
-    }
-
-
-    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-        if (call.method == "getSignature") {
-            val signature: Signature;
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                @Suppress("DEPRECATION")
-                @SuppressLint("PackageManagerGetSignatures")
-                val packageInfo: PackageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
-                @Suppress("DEPRECATION")
-                signature = packageInfo.signatures.first()
-                result.success(signature.toByteArray())
-            } else {
-                val packageInfo: PackageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-                signature = packageInfo.signingInfo.apkContentsSigners.first()
-                result.success(signature.toByteArray())
-            }
-        } else {
-            result.notImplemented()
-        }
+        PackagePortal.setUp(flutterPluginBinding.binaryMessenger, this)
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-        channel.setMethodCallHandler(null)
+        PackagePortal.setUp(binding.binaryMessenger, null)
+    }
+
+    @SuppressLint("PackageManagerGetSignatures")
+    override fun appSignature(): ByteArray? {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            val packageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
+            return if(packageInfo.signatures.isEmpty()) {
+                null
+            } else {
+                packageInfo.signatures.first().toByteArray()
+            }
+        } else {
+            val packageInfo: PackageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+            val signer = packageInfo.signingInfo.apkContentsSigners
+            return if(signer.isEmpty()) {
+                null
+            }else {
+                signer.first().toByteArray()
+            }
+        }
     }
 
 
