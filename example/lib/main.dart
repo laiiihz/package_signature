@@ -8,9 +8,9 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -27,12 +27,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initPlatformState() async {
-    final n = DateTime.now();
+    final sw = Stopwatch()..start();
     Signature? signature = await PackageSignature().signature;
+    sw.stop();
     if (!mounted) return;
 
     setState(() {
-      _cost = DateTime.now().difference(n).inMilliseconds;
+      _cost = sw.elapsedMilliseconds;
       _signatureSha256 = signature?.sha256base64 ?? '';
       _signatureSha256Hex = signature?.sha256hex ?? '';
       _signatureSha1 = signature?.sha1base64 ?? '';
