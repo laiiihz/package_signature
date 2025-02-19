@@ -1,3 +1,8 @@
+## 1.1.0 - 2025-02-19
+### Changed
+- bump gradle version
+- add gradle android namespace. thanks [@Loraine Lesch](https://github.com/zhangruiyu)
+
 ## 1.0.0 - 2023-05-24
 ### Changed
 - set minSDK to 2.17.0
