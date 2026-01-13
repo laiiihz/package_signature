@@ -1,3 +1,8 @@
+## 1.1.1 - 2026-01-13
+### Fixed
+- fixed kotlin null safety errors Thanks @DowranRowshenow
+- Complete the missing package in Kotlin
+
 ## 1.1.0 - 2025-02-19
 ### Changed
 - bump gradle version
