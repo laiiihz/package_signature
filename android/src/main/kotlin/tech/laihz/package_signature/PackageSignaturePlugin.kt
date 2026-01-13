@@ -9,11 +9,6 @@ import android.content.pm.Signature
 import android.os.Build
 import androidx.annotation.NonNull
 import io.flutter.embedding.engine.plugins.FlutterPlugin
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
-
 
 /** PackageSignaturePlugin */
 class PackageSignaturePlugin : FlutterPlugin, PackagePortal {
@@ -28,25 +23,34 @@ class PackageSignaturePlugin : FlutterPlugin, PackagePortal {
         PackagePortal.setUp(binding.binaryMessenger, null)
     }
 
-    @SuppressLint("PackageManagerGetSignatures")
     override fun appSignature(): ByteArray? {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-            val packageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
-            return if(packageInfo.signatures.isEmpty()) {
-                null
+        val packageName = context.packageName
+        val packageManager = context.packageManager
+
+        return try {
+            val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // Modern Way (Android 13+) - No Warning
+                packageManager.getPackageInfo(
+                    packageName, 
+                    PackageManager.PackageInfoFlags.of(PackageManager.GET_SIGNING_CERTIFICATES.toLong())
+                )
             } else {
-                packageInfo.signatures.first().toByteArray()
+                // Legacy Way (Android 9 to 12)
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
             }
-        } else {
-            val packageInfo: PackageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-            val signer = packageInfo.signingInfo.apkContentsSigners
-            return if(signer.isEmpty()) {
-                null
-            }else {
-                signer.first().toByteArray()
+
+            // Get the signer bytes safely using signingInfo (the replacement for .signatures)
+            val signingInfo = packageInfo?.signingInfo
+            if (signingInfo == null) return null
+
+            if (signingInfo.hasMultipleSigners()) {
+                signingInfo.apkContentsSigners?.firstOrNull()?.toByteArray()
+            } else {
+                signingInfo.signingCertificateHistory?.firstOrNull()?.toByteArray()
             }
+        } catch (e: Exception) {
+            null
         }
     }
-
-
 }

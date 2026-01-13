@@ -1,6 +1,6 @@
 name: package_signature
 description: a easy way to get android package signature on flutter app.
-version: 1.1.0
+version: 1.1.1
 homepage: https://github.com/laiiihz/package_signature
 
 environment:
