@@ -23,6 +23,8 @@ Signature? signature = await PackageSignature().signature;
 
 ## CONTRIBUTORS
 
-[@laiiihz](https://github.com/laiiihz)
+<a href="https://github.com/laiiihz/package_signature/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=laiiihz/package_signature" />
+</a>
 
-[@ibrahim-mubarak](https://github.com/ibrahim-mubarak)
+Made with [contrib.rocks](https://contrib.rocks).

@@ -1,3 +1,7 @@
+## 1.1.1+1 - 2026-01-13
+### Changed
+- update contributors image in README
+
 ## 1.1.1 - 2026-01-13
 ### Fixed
 - fixed kotlin null safety errors Thanks @DowranRowshenow
