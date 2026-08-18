@@ -1,3 +1,7 @@
+## 1.1.2 - 2026-08-18
+### Fixed
+- fix #6
+
 ## 1.1.1+1 - 2026-01-13
 ### Changed
 - update contributors image in README
