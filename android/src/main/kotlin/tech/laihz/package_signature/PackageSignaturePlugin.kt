@@ -1,6 +1,5 @@
 package tech.laihz.package_signature
 
-import PackagePortal
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageInfo
