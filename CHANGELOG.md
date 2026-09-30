@@ -1,3 +1,7 @@
+## 1.1.3 - 2026-09-30
+### Fixed
+- fix #7 NoSuchFieldError crash on Android < 9
+
 ## 1.1.2 - 2026-08-18
 ### Fixed
 - fix #6
