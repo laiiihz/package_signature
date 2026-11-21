@@ -1,3 +1,8 @@
+## 1.1.4 - 2026-11-21
+### Fixed
+
+- Replace `jcenter()` with `mavenCentral()` so the Android build evaluates on Gradle 9.
+
 ## 1.1.3 - 2026-09-30
 ### Fixed
 - fix #7 NoSuchFieldError crash on Android < 9
